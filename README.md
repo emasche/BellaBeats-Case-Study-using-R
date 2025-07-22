@@ -1,3 +1,5 @@
+https://raw.githubusercontent.com/emasche/BellaBeats-Case-Study-using-R/refs/heads/main/Plots/Average-Activity-by-Day-of-the-Week.PNG
+
 ---
 title: "Bella Beats case study"
 author: "Emma Schenegg"
