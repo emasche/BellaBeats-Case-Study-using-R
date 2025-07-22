@@ -346,9 +346,7 @@ ggplot(plot_data, aes(x = weekday, y = Value, fill = Metric)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-![Activity by Weekdays](https://raw.githubusercontent.com/emasche/BellaBeats-Case-Study-using-R/refs/heads/main/Plots/Average-Activity-by-Day-of-the-Week.PNG)
-git push
-
+https://raw.githubusercontent.com/emasche/BellaBeats-Case-Study-using-R/main/Plots/Average-Activity-by-Day-of-the-Week.PNG
 
 # People are less active on Friday and Sunday but most active on Saturday.
 ```
