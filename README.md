@@ -1,5 +1,3 @@
-![Activity by Weekdays](Plots/Average-Activity-by-Day-of-the-Week.PNG)
-
 
 ---
 title: "Bella Beats case study"
@@ -261,8 +259,9 @@ Activity %>%
     avg_Calories = mean(Calories, na.rm = TRUE)
   )
 
-# Slightly more active and less sedentary on the weekend but not a big difference.
 ```
+![Activity by Weekdays](Plots/Average-Activity-by-Day-of-the-Week.PNG)
+The bar chart show a slightly higher activity and less sedentarity on the weekend but not a big difference between weekend and weekdays.
 
 ### Sleep
 
