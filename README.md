@@ -1,4 +1,3 @@
-
 ---
 title: "Bella Beats case study"
 author: "Emma Schenegg"
@@ -260,8 +259,7 @@ Activity %>%
   )
 
 ```
-![Activity by Weekdays](Plots/Average-Activity-by-Day-of-the-Week.PNG)
-The bar chart show a slightly higher activity and less sedentarity on the weekend but not a big difference between weekend and weekdays.
+
 
 ### Sleep
 
@@ -276,9 +274,8 @@ Sleep %>%
     avg_TotalMinutesAsleep = mean(TotalMinutesAsleep, na.rm = TRUE),
     avg_TimeInBedAwake = mean(TimeInBedAwake, na.rm = TRUE)
   )
-
-# People spend more time sleeping on the weekend.
 ```
+
 
 ### Heart Rate
 
@@ -293,8 +290,6 @@ Heartrate %>%
   summarise(
     avg_Value = mean(Value, na.rm = TRUE)
   )
-
-# Heart Rate is very slightly higher on the weekend
 ```
 
 
@@ -309,9 +304,7 @@ Weight %>%
   summarise(
     avg_WeightKg = mean(WeightKg, na.rm = TRUE),
     avg_BMI = mean(BMI, na.rn= TRUE)
-  )
-
-# Weight and BMI higher on Weekends.
+  ) 
 ```
 
 
@@ -347,12 +340,10 @@ ggplot(plot_data, aes(x = weekday, y = Value, fill = Metric)) +
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-https://raw.githubusercontent.com/emasche/BellaBeats-Case-Study-using-R/main/Plots/Average-Activity-by-Day-of-the-Week.PNG
-
-# People are less active on Friday and Sunday but most active on Saturday.
 ```
+![Activity by Weekdays](Plots/Average-Activity-by-Day-of-the-Week.PNG)
 
+The bar chart show a slightly higher activity and less sedentarity on the weekend but not a big difference between weekend and weekdays.
 
 ### Sleep
 ```{r sleep-specific-days}
@@ -383,9 +374,10 @@ ggplot(plot_sleep, aes(x = weekday, y = Value, fill = Metric)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# People spend most time asleep and in bed on Sunday and Wednesday and less time both asleep and in bed on Thursday, Tuesday and Friday.
 ```
+![Average Time in Bed and Sleeping time by weekdays](Plots/Average-Time-In-Bed-vs-Time-Asleep-by-Day-of-the-Week.PNG)
 
+Sleep patterns indicate increased average sleep duration and Time in Bed without sleeping on weekends mainly on Sunday and a midweek peak on Wednesday, suggesting variability tied to work and rest cycles.
 
 ### Heart Rate
 
@@ -416,7 +408,10 @@ labs(
 
 # BPM is very slightly higher on Saturday and lower on Monday, Tuesday and Wednesday.
 ```
+![Average Heart Rate by day of the week](Heart-rate-Daily.PNG)
 
+Average heart rate shows a slight increase on Saturday, while Monday, Tuesday, Wednesday, and Sunday exhibit comparatively lower values.
+However the differences betweens days are light as average BPM is at its lowest on Tuesday (77.3/bpm) and at its highest on Saturday (80.5/bpm).
 
 ### Weight
 
@@ -445,10 +440,11 @@ ggplot(plot_weight, aes(x = weekday, y = Value, fill = Metric)) +
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# Both weight and BMI are higher on Wednesday and Sunday and slightly lower on Thursday.
 ```
 
+![Weight by day of the week](Plots/Average-Weight-by-Day-of-the-Week.PNG)
+
+Weight and BMI higher on Wednesday and Sunday.
 
 # Correlations
 
@@ -514,6 +510,9 @@ corrplot(cor_matrix,
          tl.col = "darkred")     # rotate labels 45 degrees
 ```
 
+![Correlation Matrix](Correlation-Matrix.PNG)
+
+The correlation matrix indicates some intresting correlation between the variables:
 
 ## 1- Sedentary time correlate with total sleeping time (without accounting for sedentary time spend sleeping).
 
@@ -529,10 +528,10 @@ plot(Activity$SedentaryAwakeTime, Activity$TotalMinutesAsleep,
      ylab = "Total Minutes Asleep",
      pch = 19, col = "darkblue")
 abline(lm(TotalMinutesAsleep ~ SedentaryAwakeTime, data = Activity), col = "red", lwd = 2) # adding a trend line (linear regression)
-
-## As sedentary minutes increase, sleep minutes tend to decrease and vice versa.
 ```
+![Sedentary Daytime vs Sleeping time](Sedentary-Minutes-vs-Total-Sleep.PNG)
 
+A very strong negative correlation was found between sedentary minutes and sleep duration, indicating that individuals who are more sedentary are likely to sleep less.
 
 ## 2- Heart rate correlate with sleeping time
 
@@ -555,10 +554,10 @@ plot(HeartbeatSleep$AvgHeartRate, HeartbeatSleep$TotalMinutesAsleep,
      ylab = "Total Minutes Asleep",
      pch = 19, col = "darkblue")
 abline(lm(TotalMinutesAsleep ~ AvgHeartRate, data = HeartbeatSleep), col = "red", lwd = 2) # adding a trend line (linear regression)
-
-# The more people spend time sleeping, the lower is their heart rate and vice versa.
 ```
+![Sedentary daytime vs Total sleep](Sedentary-Minutes-vs-Total-Sleep.PNG)
 
+There is a negative correlation between sleep duration and heart rate, suggesting that more sleep is associated with lower resting heart rates.
 
 ## 3- Heart Rate correlates with Sedentary time
 
@@ -576,10 +575,10 @@ ggplot(HeartrateActivity, aes(x = SedentaryAwakeTime, y = AvgHeartRate)) +
        x = "Sedentary Awake Time (mins)",
        y = "Average Heart Rate") +
   theme_minimal()
-
-# People with more sedentary time tend to have slightly higher heart rates and vice versa.
 ```
- 
+![Heart Rate vs Sedentary Time(awake)](Average-Heart-Rate-vs-Sedentary-Time.PNG)
+
+A slight positive correlation was observed between sedentary time and average heart rate, suggesting that individuals who are more sedentary may tend to have higher resting heart rates.
 
 ## 4- Total Active Minutes and Steps
 
@@ -596,9 +595,10 @@ ggplot(Activity, aes(x= TotalActiveMinutes, y= Activity$TotalSteps))+
        x= "Total Daily Active Time (min)",
        y= "Daily Steps")+
   theme_minimal()
-
-# The correlation between Total Active Minutes and Total Steps is very strong (r = 0.77, p < .001), indicating a significant and positive linear relationship. This suggests that individuals who spend more time being active tend to take more steps throughout the day. The strong correlation also implies that a large portion of daily physical activity is likely made up of walking or stepping-based movement, reinforcing the role of step count as a key component of overall activity levels.
 ```
+![Total Steps vs Total Active Time](Total-Active-Time-vs-Steps.PNG)
+
+The correlation between Total Active Minutes and Total Steps is very strong (r = 0.77, p < .001), indicating a significant and positive linear relationship. This suggests that individuals who spend more time being active tend to take more steps throughout the day. The strong correlation also implies that a large portion of daily physical activity is likely made up of walking or stepping-based movement, reinforcing the role of step count as a key component of overall activity levels.
 
 ## 5- Calories and Very Active minutes
 
@@ -614,10 +614,10 @@ ggplot(Activity, aes(x=Calories, y=VeryActiveMinutes))+
        x= "Calories",
        y="Very Active Minutes")+
   theme_minimal()
-
-# As number of Very Active minutes increase, burnt Calories increases
 ```
-
+![Very Active time vs Calories](Calories-vs-Active-Minutes.PNG)
+ As number of Very Active minutes increase, burnt Calories increases
+ 
 ## 6- Calories and Steps
 
 ```{r Calories-steps}
@@ -632,10 +632,11 @@ ggplot(Activity, aes(x=Calories, y=TotalSteps))+
        x="Daily Caloric expenditure",
        y="Daily Steps")+
   theme_minimal()
-
-# There is a positive relationship between daily step count and calorie burn, indicating that individuals who walk more steps tend to expend more calories throughout the day.
 ```
+![Daily Steps vs Calories burnt](Calories-vs-Steps.PNG)
 
+ There is a positive relationship between daily step count and calorie burnt, indicating that individuals who walk more steps tend to expend more calories throughout the day.
+ 
 ## 7- Time in Bed (Awake) and Fairly Active minutes
 
 ```{r Awake-time-bed-fairly-active}
@@ -651,10 +652,11 @@ ggplot(Allmerged, aes(x=TimeInBedAwake, y=FairlyActiveMinutes))+
        y="Daily Fairly Active Minutes")+
   coord_cartesian(xlim = c(0, 200), ylim = c(0, 200)) +  # zoom to focus area without dropping data
   theme_minimal()
-
-#The more time Daily fairly active time is spent the more time in bed is spent before and after sleeping and vice versa. Because correlation does not imply causation, this association highlights a connection but doesn’t clarify the direction of influence. Those results could indicate that spending time in bed helps relaxation and increases motivation for the rest of the day resulting in higher fairly active time but it could also indicate that longer fairly active time leads to the need of more time to relax once in bed.
 ```
 
+![Time In Bed Awake vs Fairly Active Minutes](Time-in-Bed-Awake-vs-Daily-Fairly-Active-Minutes.PNG)
+
+The more time Daily fairly active time is spent the more time in bed is spent before and after sleeping and vice versa. Because correlation does not imply causation, this association highlights a connection but doesn’t clarify the direction of influence. Those results could indicate that spending time in bed helps relaxation and increases motivation for the rest of the day resulting in higher fairly active time but it could also indicate that longer fairly active time leads to the need of more time to relax once in bed.
 
 Summary of Analysis
 
