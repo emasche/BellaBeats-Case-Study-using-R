@@ -3,7 +3,7 @@
 *Author: Emma Schenegg*  
 *Date: 2025-07-19*
 
-For the complete version of this analysis please follow this link [📄 View Full Report (PDF)](Final-Report-PDF.pdf?raw=true)
+To download the complete version of this analysis please follow this link [📄 View Full Report (PDF)](Final-Report-PDF.pdf?raw=true)
 
 # Introduction
 
