@@ -13,7 +13,7 @@ Introduction
 
 Business Context
 
-  Bellabeat is a wellness technology company focused on creating smart products designed specifically for women. Their devices track physical       activity, sleep, stress, and reproductive health to promote holistic wellbeing. Bellabeat emphasizes combining stylish design with health         insights to support a balanced lifestyle. Their products serve as lifestyle partners, helping women monitor both mental and physical health. The   brand is known for female-centric features and empowering users through personalized wellness data. Sršen, co-founder of Bellabeat, has           requested an analysis of smart device usage data to gain insights into how consumers—especially women—use non-Bellabeat tracking devices. The     objective is to understand key user behaviors, identify trending features, and explore opportunities to improve Bellabeat’s product offerings     and marketing strategy.
+Bellabeat is a wellness technology company focused on creating smart products designed specifically for women. Their devices track physical activity, sleep, stress, and reproductive health to promote holistic wellbeing. Bellabeat emphasizes combining stylish design with health insights to support a balanced lifestyle. Their products serve as lifestyle partners, helping women monitor both mental and physical health. The brand is known for female-centric features and empowering users through personalized wellness data. Sršen, co-founder of Bellabeat, has requested an analysis of smart device usage data to gain insights into how consumers—especially women—use non-Bellabeat tracking devices. The objective is to understand key user behaviors, identify trending features, and explore opportunities to improve Bellabeat’s product offerings and marketing strategy.
 
 Guiding Problem
 
@@ -29,12 +29,12 @@ Guiding Problem
 
 Datasets
 
-  The data used in this analysis comes from the publicly available FitBit Fitness Tracker Data provided by Möbius on Kaggle. It includes            anonymized activity, sleep, heart rate, and weight data collected from 33 to 35 users over a period of 31 to 60 days between March and May 2016.   Four key datasets were utilized: dailyActivity_merged.csv (tracking total steps, activity intensity levels, sedentary minutes, and calories       burned), heartrate_seconds_merged.csv (second-by-second heart rate data in BPM), sleepDay_merged.csv (sleep duration, number of sleep records,    and time spent in bed), and weightLogInfo_merged.csv (user weight in kilograms, BMI, and manual/automatic entry type). The activity, heart rate,   and weight data were originally split across two separate datasets covering different time periods—12/03/2016 to 11/04/2016 and 12/04/2016 to     12/05/2016—and this analysis will later combine them using the rbind() function to ensure a continuous timeline for analysis. The sleep data is   already consolidated and did not require merging.
+The data used in this analysis comes from the publicly available FitBit Fitness Tracker Data provided by Möbius on Kaggle. It includes anonymized activity, sleep, heart rate, and weight data collected from 33 to 35 users over a period of 31 to 60 days between March and May 2016. Four key datasets were utilized: dailyActivity_merged.csv (tracking total steps, activity intensity levels, sedentary minutes, and calories burned), heartrate_seconds_merged.csv (second-by-second heart rate data in BPM), sleepDay_merged.csv (sleep duration, number of sleep records, and time spent in bed), and weightLogInfo_merged.csv (user weight in kilograms, BMI, and manual/automatic entry type). The activity, heart rate, and weight data were originally split across two separate datasets covering different time periods—12/03/2016 to 11/04/2016 and 12/04/2016 to 12/05/2016—and this analysis will later combine them using the rbind() function to ensure a continuous timeline for analysis. The sleep data is already consolidated and did not require merging.
   
   
 Business Task Statement
 
-  To gain insights into trends in women’s behavior with competitor smart tracking devices in order to guide Bellabeat’s marketing strategy and      product development, helping the brand better connect with existing and potential customers.
+To gain insights into trends in women’s behavior with competitor smart tracking devices in order to guide Bellabeat’s marketing strategy and product development, helping the brand better connect with existing and potential customers.
 
 
 # Install packages
@@ -58,7 +58,7 @@ library(corrplot)
 # Bind and load data sets
 
 ```{r Link-data-sets}
-# Using rbind function to link the matching data from the 12/03/16-11/04/16 (dd/mm/yyyy) period to the 12/04/16-12/05/2016 period since they are located in different data sets.
+Using rbind function to link the matching data from the 12/03/16-11/04/16 (dd/mm/yyyy) period to the 12/04/16-12/05/2016 period since they are located in different data sets.
 
 Activity <- rbind(read.csv("C:/Users/emma3/Downloads/Fitabase Data 4.12.16-5.12.16/dailyActivity_merged2.csv"),read.csv("C:/Users/emma3/Downloads/mturkfitbit_export_3.12.16-4.11.16/dailyActivity_merged.csv"))
 
