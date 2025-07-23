@@ -408,7 +408,7 @@ labs(
 
 # BPM is very slightly higher on Saturday and lower on Monday, Tuesday and Wednesday.
 ```
-![Average Heart Rate by day of the week](Heart-rate-Daily.PNG)
+![Average Heart Rate by day of the week](Plots/Heart-rate-Daily.PNG)
 
 Average heart rate shows a slight increase on Saturday, while Monday, Tuesday, Wednesday, and Sunday exhibit comparatively lower values.
 However the differences betweens days are light as average BPM is at its lowest on Tuesday (77.3/bpm) and at its highest on Saturday (80.5/bpm).
@@ -510,7 +510,7 @@ corrplot(cor_matrix,
          tl.col = "darkred")     # rotate labels 45 degrees
 ```
 
-![Correlation Matrix](Correlation-Matrix.PNG)
+![Correlation Matrix](Plots/Correlation-Matrix.PNG)
 
 The correlation matrix indicates some intresting correlation between the variables:
 
@@ -529,7 +529,7 @@ plot(Activity$SedentaryAwakeTime, Activity$TotalMinutesAsleep,
      pch = 19, col = "darkblue")
 abline(lm(TotalMinutesAsleep ~ SedentaryAwakeTime, data = Activity), col = "red", lwd = 2) # adding a trend line (linear regression)
 ```
-![Sedentary Daytime vs Sleeping time](Sedentary-Minutes-vs-Total-Sleep.PNG)
+![Sedentary Daytime vs Sleeping time](Plots/Sedentary-Minutes-vs-Total-Sleep.PNG)
 
 A very strong negative correlation was found between sedentary minutes and sleep duration, indicating that individuals who are more sedentary are likely to sleep less.
 
@@ -555,7 +555,7 @@ plot(HeartbeatSleep$AvgHeartRate, HeartbeatSleep$TotalMinutesAsleep,
      pch = 19, col = "darkblue")
 abline(lm(TotalMinutesAsleep ~ AvgHeartRate, data = HeartbeatSleep), col = "red", lwd = 2) # adding a trend line (linear regression)
 ```
-![Sedentary daytime vs Total sleep](Sedentary-Minutes-vs-Total-Sleep.PNG)
+![Sedentary daytime vs Total sleep](Plots/Sedentary-Minutes-vs-Total-Sleep.PNG)
 
 There is a negative correlation between sleep duration and heart rate, suggesting that more sleep is associated with lower resting heart rates.
 
@@ -576,7 +576,7 @@ ggplot(HeartrateActivity, aes(x = SedentaryAwakeTime, y = AvgHeartRate)) +
        y = "Average Heart Rate") +
   theme_minimal()
 ```
-![Heart Rate vs Sedentary Time(awake)](Average-Heart-Rate-vs-Sedentary-Time.PNG)
+![Heart Rate vs Sedentary Time(awake)](Plots/Average-Heart-Rate-vs-Sedentary-Time.PNG)
 
 A slight positive correlation was observed between sedentary time and average heart rate, suggesting that individuals who are more sedentary may tend to have higher resting heart rates.
 
@@ -596,7 +596,7 @@ ggplot(Activity, aes(x= TotalActiveMinutes, y= Activity$TotalSteps))+
        y= "Daily Steps")+
   theme_minimal()
 ```
-![Total Steps vs Total Active Time](Total-Active-Time-vs-Steps.PNG)
+![Total Steps vs Total Active Time](Plots/Total-Active-Time-vs-Steps.PNG)
 
 The correlation between Total Active Minutes and Total Steps is very strong (r = 0.77, p < .001), indicating a significant and positive linear relationship. This suggests that individuals who spend more time being active tend to take more steps throughout the day. The strong correlation also implies that a large portion of daily physical activity is likely made up of walking or stepping-based movement, reinforcing the role of step count as a key component of overall activity levels.
 
@@ -615,7 +615,7 @@ ggplot(Activity, aes(x=Calories, y=VeryActiveMinutes))+
        y="Very Active Minutes")+
   theme_minimal()
 ```
-![Very Active time vs Calories](Calories-vs-Active-Minutes.PNG)
+![Very Active time vs Calories](Plots/Calories-vs-Active-Minutes.PNG)
  As number of Very Active minutes increase, burnt Calories increases
  
 ## 6- Calories and Steps
@@ -633,7 +633,7 @@ ggplot(Activity, aes(x=Calories, y=TotalSteps))+
        y="Daily Steps")+
   theme_minimal()
 ```
-![Daily Steps vs Calories burnt](Calories-vs-Steps.PNG)
+![Daily Steps vs Calories burnt](Plots/Calories-vs-Steps.PNG)
 
  There is a positive relationship between daily step count and calorie burnt, indicating that individuals who walk more steps tend to expend more calories throughout the day.
  
@@ -654,7 +654,7 @@ ggplot(Allmerged, aes(x=TimeInBedAwake, y=FairlyActiveMinutes))+
   theme_minimal()
 ```
 
-![Time In Bed Awake vs Fairly Active Minutes](Time-in-Bed-Awake-vs-Daily-Fairly-Active-Minutes.PNG)
+![Time In Bed Awake vs Fairly Active Minutes](Plots/Time-in-Bed-Awake-vs-Daily-Fairly-Active-Minutes.PNG)
 
 The more time Daily fairly active time is spent the more time in bed is spent before and after sleeping and vice versa. Because correlation does not imply causation, this association highlights a connection but doesn’t clarify the direction of influence. Those results could indicate that spending time in bed helps relaxation and increases motivation for the rest of the day resulting in higher fairly active time but it could also indicate that longer fairly active time leads to the need of more time to relax once in bed.
 
@@ -662,13 +662,13 @@ Summary of Analysis
 
 Key findings from the data analysis include:
 
-Activity Trends: The average daily step count was 7,281—well below the recommended 10,000. Users were more active on Saturdays and   least active on Fridays and Sundays. Weekends showed slightly more active minutes and lower sedentary behavior.
+Activity Trends: The average daily step count was 7,281—well below the recommended 10,000. Users were more active on Saturdays and least active on Fridays and Sundays. Weekends showed slightly more active minutes and lower sedentary behavior.
 
-Sleep Patterns: Users sleep longer on weekends, especially on         Sundays. A significant portion of time in bed is spent awake,         particularly on weeknights.
+Sleep Patterns: Users sleep longer on weekends, especially on Sundays. A significant portion of time in bed is spent awake,         particularly on weeknights.
 
-Heart Rate Insights: Slightly elevated average heart rate on          weekends. Weak negative correlation between heart rate and sleep       duration.
+Heart Rate Insights: Slightly elevated average heart rate on weekends. Weak negative correlation between heart rate and sleep duration.
 
-Weight and BMI: Slight increase in weight and BMI over weekends,   peaking on Sundays and Wednesdays. Correlation Highlights: Strong positive correlation between total active minutes and step count (r = 0.77). Moderate positive correlation between very active minutes and calories burned. Strong negative correlation between sedentary awake time and total sleep (r = -0.89). Slight positive correlation between sedentary awake time and heart rate.
+Weight and BMI: Slight increase in weight and BMI over weekends, peaking on Sundays and Wednesdays. Correlation Highlights: Strong positive correlation between total active minutes and step count (r = 0.77). Moderate positive correlation between very active minutes and calories burned. Strong negative correlation between sedentary awake time and total sleep (r = -0.89). Slight positive correlation between sedentary awake time and heart rate.
 
 Key Insight Summaries: Less activity correlates with reduced sleep and slightly higher heart rate. Most users do not meet daily activity guidelines. User behaviors differ significantly between weekdays and weekends, affecting sleep, heart rate, and calorie burn.
 
@@ -677,33 +677,33 @@ Based on the analysis, the following strategic recommendations are proposed for 
 
 1. Introduce Personalized Activity Nudges
 
-Insight: Most users do not meet the 10,000-step daily              recommendation; activity is lowest on weekdays,especially Fridays.
-Action: Use app notifications to encourage short bursts of movement    during sedentary periods, especially during workdays.
+Insight: Most users do not meet the 10,000-step daily recommendation; activity is lowest on weekdays,especially Fridays.
+Action: Use app notifications to encourage short bursts of movement during sedentary periods, especially during workdays.
 Example: “Take 1,000 steps by 3 PM to hit your daily goal!”
 
 
 2. Emphasize Weekend Wellness Features
 
 Insight: Users sleep more and are slightly more active on weekends.
-Action: Launch weekend wellness campaigns featuring mindfulness,   recovery, hydration tracking, and sleep rituals. “Recharge Sundays”:Guided breathing + hydration reminders + sleep prep content.
+Action: Launch weekend wellness campaigns featuring mindfulness, recovery, hydration tracking, and sleep rituals. “Recharge Sundays”:Guided breathing + hydration reminders + sleep prep content.
     
     
 3. Create Smart Sleep Coaching
 
-Insight: There's a strong negative correlation between sedentary   time and sleep; many users spend time in bed awake. Action: Offer in-app sleep coaching to help users improve sleep efficiency (not just duration), including: Pre-bed routines: Light/stretch reminders     before sleep. Content to reduce "awake in bed" time (e.g., sleep stories, relaxation sounds)
+Insight: There's a strong negative correlation between sedentary time and sleep; many users spend time in bed awake. Action: Offer in-app sleep coaching to help users improve sleep efficiency (not just duration), including: Pre-bed routines: Light/stretch reminders before sleep. Content to reduce "awake in bed" time (e.g., sleep stories, relaxation sounds)
     
 4. Launch Heart Health Awareness Tools
 
-Insight: Higher sedentary time is weakly correlated with higher    heart rate. Action: Introduce heart rate monitoring insights that detect patterns and offer tips (e.g., breathing exercises, movement alerts).“We noticed your heart rate is elevated—want to take a 3-minute breathing break?”
+Insight: Higher sedentary time is weakly correlated with higher heart rate. Action: Introduce heart rate monitoring insights that detect patterns and offer tips (e.g., breathing exercises, movement alerts).“We noticed your heart rate is elevated—want to take a 3-minute breathing break?”
     
 5. Add Adaptive Daily Goals
 
 Insight: Activity and sleep levels vary by day of the week.
-Action: Use machine learning to adapt daily step or sleep goals    based on user trends (e.g., higher weekend activity). Adjusted    expectations may improve user satisfaction and consistency.
+Action: Use machine learning to adapt daily step or sleep goals based on user trends (e.g., higher weekend activity). Adjusted    expectations may improve user satisfaction and consistency.
 
 6. Implement “Lifestyle Snapshot” Dashboards
 
-Insight: Correlation analysis showed meaningful connections between activity, heart rate, sleep, and calories. Action: Provide users   with a weekly health summary combining: Steps, Heart rate trends, Sleep efficiency, Calories burned. Example: “This week you were most active on Saturday. Sleep improved on days with less sedentary    time.”
+Insight: Correlation analysis showed meaningful connections between activity, heart rate, sleep, and calories. Action: Provide users   with a weekly health summary combining: Steps, Heart rate trends, Sleep efficiency, Calories burned. Example: “This week you were most active on Saturday. Sleep improved on days with less sedentary time.”
 
 7. Gamify Movement & Sleep
 
@@ -718,35 +718,12 @@ Further research could explore how different age groups of female  users engage 
     
 2. Competitive Differentiation
 
-Further exploration could assess whether Bellabeat can create a    stronger market position by focusing on holistic wellness rather than traditional fitness tracking alone. Specifically: Do users         respond more positively to devices that support both physical and      mental wellbeing, such as stress reduction, sleep quality,  mindfulness, and emotional balance?
-Would framing Bellabeat as a lifestyle partner—rather than a step      counter—better align with the needs and expectations of its core       audience?
+Further exploration could assess whether Bellabeat can create a stronger market position by focusing on holistic wellness rather than traditional fitness tracking alone. Specifically: Do users respond more positively to devices that support both physical and mental wellbeing, such as stress reduction, sleep quality,  mindfulness, and emotional balance?
+Would framing Bellabeat as a lifestyle partner—rather than a step counter—better align with the needs and expectations of its core       audience?
     
   
 3. Female-Specific Health Features
     
-Further development could explore how Bellabeat can better support    women’s unique health needs by integrating features tailored to       different life stages. Specifically: Do users benefit from tracking tools related to menstrual cycles, fertility windows, and hormonal  fluctuations? Could women entering perimenopause and menopause find   value in tools focused on stress management, sleep support, and     holistic wellness guidance?
+Further development could explore how Bellabeat can better support women’s unique health needs by integrating features tailored to       different life stages. Specifically: Do users benefit from tracking tools related to menstrual cycles, fertility windows, and hormonal  fluctuations? Could women entering perimenopause and menopause find value in tools focused on stress management, sleep support, and     holistic wellness guidance?
     
 Understanding these preferences could help Bellabeat tailor its product features and marketing messages to better meet the distinct needs of these segments.
-
-About
-Bella Beats case study, Google Data Analytics milestone project
-
-file:///C:/Users/emma3/OneDrive/Documents/BellaBeats/Bella%20Beats%20case%20study.html
-Topics
-smart-devices fitness-tracker health-tracker
-Resources
- Readme
- Activity
-Stars
- 0 stars
-Watchers
- 0 watching
-Forks
- 0 forks
-Releases
-No releases published
-Create a new release
-Packages
-No packages published
-Publish your first package
-Footer
