@@ -30,6 +30,8 @@ The data used in this analysis comes from the publicly available FitBit Fitness 
 
 To gain insights into trends in women’s behavior with competitor smart tracking devices in order to guide Bellabeat’s marketing strategy and product development, helping the brand better connect with existing and potential customers.
 
+# Analysis
+
 
 # Install packages
 
