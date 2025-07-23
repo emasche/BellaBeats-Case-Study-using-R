@@ -1,14 +1,8 @@
----
-title: "Bella Beats case study"
-author: "Emma Schenegg"
-date: "2025-07-19"
-output:
-  html_document: default
-  word_document: default
----
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+# Bella Beats Case Study
+
+*Author: Emma Schenegg*  
+*Date: 2025-07-19*
+
 # Introduction
 
 ## Business Context
