@@ -3,6 +3,8 @@
 *Author: Emma Schenegg*  
 *Date: 2025-07-19*
 
+For the complete version of this analysis please follow this link [📄 View Full Report (PDF)](https://github.com/emasche/BellaBeats-Case-Study-using-R/blob/main/Final-Report-PDF.pdf?raw=true)
+
 # Introduction
 
 ## Business Context
