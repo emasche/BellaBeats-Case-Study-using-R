@@ -209,10 +209,10 @@ Now, let's examine the average values (means) for the key variables in our datas
 
 ```{r Sleep}
 Sleep %>% 
-  select(TimeInBedAwake, TotalMinutesAsleep, TotalSleepRecords) %>% 
+  select(TimeInBedAwake, TotalMinutesAsleep) %>% 
   summary()
 ```
-Time spent awake in bed ranges widely from 0 to 371 minutes, with an average around 39 minutes. Total minutes asleep vary between 58 and 796, averaging about 420 minutes. Most records have just one sleep entry, though some have up to three.
+Time spent awake in bed ranges widely from 0 to 371 minutes, with an average around 39 minutes. Total minutes asleep vary between 58 and 796, averaging about 420 minutes. 
 
 ### Activity 
 
@@ -222,7 +222,7 @@ Activity %>%
   select(TotalSteps, VeryActiveMinutes, FairlyActiveMinutes, LightlyActiveMinutes, TotalActiveMinutes, SedentaryAwakeTime) %>% 
   summary() 
 ```
-Daily total steps range from 0 to 36,019, with an average around 7,377 steps. Very active minutes vary widely (0–210) but average about 20 minutes, while fairly and lightly active minutes average 14 and 188 minutes respectively. Total active minutes average 222, and sedentary daytime minutes average around ??????????? per day.
+Daily total steps range from 0 to 36,019, with an average around 7,377 steps. Very active minutes vary widely (0–210) but average about 20 minutes, while fairly and lightly active minutes average 14 and 188 minutes respectively. Total active minutes average 222, and sedentary daytime minutes average around 344min (5h44m) per day.
 
 ### Weight
 
