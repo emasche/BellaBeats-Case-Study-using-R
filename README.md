@@ -57,9 +57,9 @@ library(corrplot)
 
 # Bind and load data sets
 
-```{r Link-data-sets}
-Using rbind function to link the matching data from the 12/03/16-11/04/16 (dd/mm/yyyy) period to the 12/04/16-12/05/2016 period since they are located in different data sets.
+The rbind() function was used to combine matching data for Activity, Heart Rate and Weight data sets from two distinct periods  — March 12 to April 11, 2016, and April 12 to May 12, 2016 — as they were stored in separate datasets. This allowed for the creation of a continuous dataset covering the full date range for consistent analysis. As all sleep records were already consolidated in one dataset, no additional merging was necessary using the rbind() function.
 
+```{r Link-data-sets}
 Activity <- rbind(read.csv("C:/Users/emma3/Downloads/Fitabase Data 4.12.16-5.12.16/dailyActivity_merged2.csv"),read.csv("C:/Users/emma3/Downloads/mturkfitbit_export_3.12.16-4.11.16/dailyActivity_merged.csv"))
 
 Weight <- rbind(read.csv("C:/Users/emma3/Downloads/Fitabase Data 4.12.16-5.12.16/weightLogInfo_merged.csv"),read.csv("C:/Users/emma3/Downloads/mturkfitbit_export_3.12.16-4.11.16/weightLogInfo_merged1.csv"))
@@ -67,14 +67,13 @@ Weight <- rbind(read.csv("C:/Users/emma3/Downloads/Fitabase Data 4.12.16-5.12.16
 Heartrate <- rbind(read.csv("C:/Users/emma3/Downloads/Fitabase Data 4.12.16-5.12.16/heartrate_seconds_merged.csv"), read.csv("C:/Users/emma3/Downloads/mturkfitbit_export_3.12.16-4.11.16/heartrate_seconds_merged1.csv"))
 
 Sleep <- read.csv("C:/Users/emma3/Downloads/Fitabase Data 4.12.16-5.12.16/sleepDay_merged.csv")
- #There is only one Data set containing sleep data, so there is no need to use rbind function.
 ```
 
 # Visualise Data
 
-```{r head}
-# Using head function to check columns and have a visuals on the data.
+The head() function was used to preview the first few rows of the dataset, allowing for a quick inspection of the column structure and a general understanding of the data.
 
+```{r head}
 head(Activity)
 head(Weight)
 head(Heartrate)
@@ -83,33 +82,32 @@ head(Sleep)
 
 # Inspecting Data Formats
 
-```{r str}
-# Using the str function to see if the formatting of columns are consistent and correct. 
+The str() function was used to examine the structure of the dataset and verify that the column formats were consistent and appropriate for analysis.
 
+```{r str}
 str(Activity)
 str(Weight)
 str(Heartrate)
 str(sleep) 
-
-#Date and time are in characters rather than date format, time indicate AM/PM rather than 23:59:59 format. Date is in US style (mm/dd/yyyy) rather than in uk style (dd/mm/yyyy). Activity does not present time but only date, Sleep presents time but all indicate 00:00:00.
 ```
+
+The date and time values in the datasets were initially stored as character strings rather than in proper date-time formats. Time values used the 12-hour clock format with AM/PM indicators instead of the standard 24-hour format (HH:MM:SS). Additionally, dates followed the U.S. format (MM/DD/YYYY), which differs from the UK format (DD/MM/YYYY).
+In terms of structure, the activity dataset recorded only the date (without specific times), whereas the sleep dataset included time stamps. However, all time entries in the sleep dataset were set to 00:00:00, offering no variation in time-of-day information.
 
 # Adjusting Dates
 
 ### Dates format
-```{r Adjust-date-type}
-# Using POSIXct to indicate the curing character string format in date format.
-# Using Sis.Timezone to match the timezone data times are actually in 
-# Formatting time in a UK format dd/mm/yyy HH:MM:SS for easier understanding and avoid any future confusion and saving it as "FormattedTime".
 
-Activity$ActivityDate <- as.POSIXct(Activity$ActivityDate, format="%m/%d/%Y", tz= Sys.timezone())
-Activity$FormattedTime <- format(Activity$ActivityDate, format = "%d/%m/%Y")
-```
+The as.POSIXct() function was used to convert character strings into proper date-time format, enabling accurate time-based analysis.
 
+The Sys.timezone() function was applied to ensure that the timestamps aligned with the system’s actual time zone, maintaining consistency in time-related data.
+
+Additionally, time was reformatted to the UK standard (DD/MM/YYYY HH:MM:SS) to improve readability and prevent confusion. The reformatted values were stored in a new column named "FormattedTime".
+
+For Weight, Heartrate and Sleep data sets, the format function was used with the %I:%M:%S %p directive to correctly interpret and format time values stored in the 12-hour clock format with AM/PM indicators, as found in the original datasets.
+Since Sleep Data set time are all 00:00:00 and don't indicate any specific time where people felt asleep, only the date is relevant and was kept.
 
 ```{r Date-ampm}
-# Using format %I/%M/%S %p because 12h format (AM/PM) for those data sets.
-
 Weight$Date <- as.POSIXct(Weight$Date, format="%m/%d/%Y %I:%M:%S %p", tz= Sys.timezone())
 Weight$FormattedTime <- format(Weight$Date, format = "%d/%m/%Y %H:%M:%S")
 
@@ -117,14 +115,20 @@ Heartrate$Time <- as.POSIXct(Heartrate$Time, format="%m/%d/%Y %I:%M:%S %p", tz= 
 Heartrate$FormattedTime <- format(Heartrate$Time, format = "%d/%m/%Y %H:%M:%S")
 
 Sleep$SleepDay <- as.POSIXct(Sleep$SleepDay, format="%m/%d/%Y %H:%M:%S", tz= Sys.timezone())
-Sleep$FormattedTime <- format(Sleep$SleepDay, format = "%d/%m/%Y") # Since Sleep Data set time are all 00:00:00, only the date is relevant and kept.
+Sleep$FormattedTime <- format(Sleep$SleepDay, format = "%d/%m/%Y")
 ```
 
+Since the Activity dataset includes only dates (without time) and uses the U.S. date format, only the date component was reformatted to the U.K. style for consistency and clarity.
+
+```{r Adjust-date-type}
+Activity$ActivityDate <- as.POSIXct(Activity$ActivityDate, format="%m/%d/%Y", tz= Sys.timezone())
+Activity$FormattedTime <- format(Activity$ActivityDate, format = "%d/%m/%Y")
+```
 ### Remove previous date variable
 
-```{r Remove-previous-date}
-# Remove previous US Date/time columns.
+Since a new date-time variable has been created in the U.K. format, the original date columns are no longer needed and can be safely removed to avoid redundancy.
 
+```{r Remove-previous-date}
 Activity <- Activity %>% select(-ActivityDate)
 Weight <- Weight %>%  select(-Date)
 Heartrate <- Heartrate %>% select(-Time)
@@ -133,40 +137,40 @@ Sleep <- Sleep %>% select(-SleepDay)
 
 # Distinct values
 
-```{r ndistinct}
-# Using n_distinct function to summarise the number of unique participants (Id) in each data set.
+The n_distinct() function was used to count the number of unique participant IDs in each dataset, providing insight into the sample size and ensuring no duplicate records are counted.
 
-n_distinct(Activity$Id)          #35
-n_distinct(Weight$Id)            #13
-n_distinct(Heartrate$Id)         #15
-n_distinct(Sleep$Id)             #24
+```{r ndistinct}
+n_distinct(Activity$Id)          
+n_distinct(Weight$Id)            
+n_distinct(Heartrate$Id)         
+n_distinct(Sleep$Id)             
 ```
 
 # Mean steps
 
+Evaluate whether, on average, users achieve the widely recommended daily target of 10,000 steps, based on guidelines by Tudor-Locke & Bassett (2004), to assess overall physical activity levels.
+
 ```{r mean-steps}
-# Check if users meets in average the recommended 10 000 steps a day (Tudor-Locke & Bassett, 2004).
-
 mean(Activity$TotalSteps, na.rm = TRUE)
-
-# Average steps = 7281, the mean doesn't reach daily steps recommendation
 ```
+Average steps = 7281, the mean doesn't reach daily steps recommendation
 
 # Creating New Variables
 
 ### Total Active Minutes
 
-```{r total-active-minutes}
-# Create a column for total daily active minutes to group Lightly Active, Fairly Active and Very Active minutes.
+Generate a new column that sums Lightly Active, Fairly Active, and Very Active minutes to represent the total daily active minutes, enabling easier analysis of overall activity levels.
 
+```{r total-active-minutes}
 Activity <- Activity %>%
   mutate(TotalActiveMinutes = LightlyActiveMinutes + FairlyActiveMinutes + VeryActiveMinutes)
 ```
 
 ### Awake Sedentary Time
-```{r awake-sedentary-time}
-# Create a column for sedentary time that doesn't take into account sleeping time and where sleeping time higher than sedentary time is not taken into account (After checking Sedentary awake time values some are negative and cannot be accounted as not accurate since total minutes asleep cannot be more than sedentary time). 
 
+Generate a new column for sedentary time that doesn't take into account sleeping time and where sleeping time higher than sedentary time is not taken into account (After checking Sedentary awake time values some are negative and cannot be accounted as not accurate since total minutes asleep cannot be more than sedentary time).
+
+```{r awake-sedentary-time}
 Activity$FormattedTime <- dmy(Activity$FormattedTime) # parse the datetime columns
 Sleep$FormattedTime <- dmy(Sleep$FormattedTime)
 
@@ -194,14 +198,16 @@ Activity <- Activity_unique %>%   # join Sleeping time and Sedentary time that b
 
 ### Time In Bed Awake
 
-```{r time-in-bed-awake}
-# Create column for time spent in bed awake by subtracting Sleeping time to Time in bed.
+Generate a new column for the time spent in bed awake by subtracting Sleeping time to Time in bed.
 
+```{r time-in-bed-awake}
 Sleep$TimeInBedAwake <- Sleep$TotalTimeInBed - Sleep$TotalMinutesAsleep
 ```
 
 
 # Means
+
+Now, let's examine the average values (means) for the key variables in our dataset to better understand overall trends.
 
 ### Sleep
 
@@ -210,15 +216,17 @@ Sleep %>%
   select(TimeInBedAwake, TotalMinutesAsleep, TotalSleepRecords) %>% 
   summary()
 ```
+Time spent awake in bed ranges widely from 0 to 371 minutes, with an average around 39 minutes. Total minutes asleep vary between 58 and 796, averaging about 420 minutes. Most records have just one sleep entry, though some have up to three.
 
 ### Activity 
 
 ```{r Activity}
 
 Activity %>% 
-  select(TotalSteps, VeryActiveMinutes, FairlyActiveMinutes, LightlyActiveMinutes, TotalActiveMinutes, SedentaryMinutes) %>% 
+  select(TotalSteps, VeryActiveMinutes, FairlyActiveMinutes, LightlyActiveMinutes, TotalActiveMinutes, SedentaryAwakeTime) %>% 
   summary() 
 ```
+Daily total steps range from 0 to 36,019, with an average around 7,377 steps. Very active minutes vary widely (0–210) but average about 20 minutes, while fairly and lightly active minutes average 14 and 188 minutes respectively. Total active minutes average 222, and sedentary daytime minutes average around ??????????? per day.
 
 ### Weight
 
@@ -228,6 +236,8 @@ Weight %>%
   select(BMI, WeightKg) %>% 
   summary() 
 ```
+BMI values range from 21.45 to 47.54, with a mean of about 25.37, while weights range from 52.6 kg to 133.5 kg, averaging 72.5 kg.
+
 
 ### Heart rate
 
@@ -237,75 +247,7 @@ Heartrate %>%
   select(Value) %>% 
   summary()
 ```
-
-
-# Weekend vs Weekdays breakdown
-
-### Activity
-
-```{r Activity-days}
-
-
-Activity$weekday <- weekdays(Activity$FormattedTime)
-Activity$day_type <- ifelse(Activity$weekday %in% c("Saturday", "Sunday"), "Weekend", "Weekday")
-
-Activity %>% 
-  group_by(day_type) %>% 
-  summarise(
-    avg_steps = mean(TotalSteps, na.rm = TRUE),
-    avg_sedentary = mean(SedentaryAwakeTime, na.rm = TRUE),
-    avg_TotalActiveMinutes = mean(TotalActiveMinutes, na.rm = TRUE),
-    avg_Calories = mean(Calories, na.rm = TRUE)
-  )
-
-```
-
-
-### Sleep
-
-```{r Sleep-days}
-
-Sleep$weekday <- weekdays(Sleep$FormattedTime)
-Sleep$day_type <- ifelse(Sleep$weekday %in% c("Saturday", "Sunday"), "Weekend", "Weekday")
-
-Sleep %>% 
-  group_by(day_type) %>% 
-  summarise(
-    avg_TotalMinutesAsleep = mean(TotalMinutesAsleep, na.rm = TRUE),
-    avg_TimeInBedAwake = mean(TimeInBedAwake, na.rm = TRUE)
-  )
-```
-
-
-### Heart Rate
-
-```{r Heart-rate-days}
-
-Heartrate$FormattedTime <- dmy_hms(Heartrate$FormattedTime)
-Heartrate$weekday <- weekdays(Heartrate$FormattedTime)
-Heartrate$day_type <- ifelse(Heartrate$weekday %in% c("Saturday", "Sunday"), "Weekend", "Weekday")
-
-Heartrate %>% 
-  group_by(day_type) %>% 
-  summarise(
-    avg_Value = mean(Value, na.rm = TRUE)
-  )
-```
-
-
-### Weight
-```{r Weight-days}
-Weight$FormattedTime <- dmy_hms(Weight$FormattedTime)
-Weight$weekday <- weekdays(Weight$FormattedTime)
-Weight$day_type <- ifelse(Weight$weekday %in% c("Saturday", "Sunday"), "Weekend", "Weekday")
-
-Weight %>% 
-  group_by(day_type) %>% 
-  summarise(
-    avg_WeightKg = mean(WeightKg, na.rm = TRUE),
-    avg_BMI = mean(BMI, na.rn= TRUE)
-  ) 
-```
+Heart rate values span from 36 to 203 bpm, with an average around 78 bpm and a median of 74 bpm.
 
 
 # Daily Activity Breakdown
@@ -410,8 +352,7 @@ labs(
 ```
 ![Average Heart Rate by day of the week](Plots/Heart-rate-Daily.PNG)
 
-Average heart rate shows a slight increase on Saturday, while Monday, Tuesday, Wednesday, and Sunday exhibit comparatively lower values.
-However the differences betweens days are light as average BPM is at its lowest on Tuesday (77.3/bpm) and at its highest on Saturday (80.5/bpm).
+Average heart rate shows a slight increase on Saturday, while Monday, Tuesday, Wednesday, and Sunday exhibit comparatively lower values. However the differences betweens days are light as average BPM is at its lowest on Tuesday (77.3/bpm) and at its highest on Saturday (80.5/bpm).
 
 ### Weight
 
@@ -448,19 +389,18 @@ Weight and BMI higher on Wednesday and Sunday.
 
 # Correlations
 
-```{r date}
-# Create a common column name "Date" for each data frame that only use d/m/y and no h:m:s in order to use it for correlation within all data frame as some data frames use h/m/s and other don't.
+Firstly, to enable correlation analysis across all data frames, a common column named “Date” was created in each dataset. This column contains only the date portion (day/month/year) without any time information, ensuring consistency since some data frames include hours, minutes, and seconds while others do not. This standardization allows for accurate merging and comparison based solely on the date.
 
+```{r date}
 Activity$Date <- as.Date(Activity$FormattedTime, format = "%d/%m/%Y") 
 Sleep$Date <- as.Date (Sleep$FormattedTime, format = "%d/%m/%Y")
 Heartrate$Date <- as.Date(Heartrate$FormattedTime, format = "%d/%m/%Y %H:%M:%S") 
 Weight$Date <- as.Date(Weight$FormattedTime, format = "%d/%m/%Y %H:%M:%S") 
 ```
 
+The Heart Rate dataset contains a large number of records since measurements were taken every 5 minutes throughout each day. To simplify the data and align it with other datasets that have only one record per day, the next step is to aggregate the Heart Rate data by calculating the daily average. This reduces multiple entries per day to a single representative value, facilitating easier comparison and analysis across datasets.
 
 ```{r Average-daily-heart-rate}
-# There is too many Heart rate data as data have been recorded every 5minutes of each date. Next step will aggregate the Heart Rate data by computing the daily average, in order to reduce multiple values per day and match them with the corresponding single daily record from other data frames.
-
 Heartrate_daily <- Heartrate %>% 
   group_by(Id, Date) %>% 
   summarize(AvgHeartRate = mean(Value, na.rm = TRUE)) 
@@ -469,50 +409,55 @@ Heartrate_daily <- Heartrate %>%
 
 ## Multi correlation matrix
 
-```{r Multi-correlation-Matrix}
-# Creating a data frame that merges all 4 main data frames by Id and Date.
+A new data frame called Allmerged is created by merging the four main datasets using the common keys Id and Date, consolidating all relevant information into a single comprehensive table for analysis.
 
+```{r Multi-correlation-Matrix}
 Allmerged <- list(Sleep, Weight, Activity, Heartrate_daily) %>% 
   reduce(full_join, by = c("Id", "Date"))
+```
 
-# Before to run correlation matrix. Remove unneeded variable for more clarity.
+Before running the correlation matrix, unnecessary variables were removed to simplify the dataset and improve clarity.
 
+```{r remove-uneeded}
 Allmerged <- Allmerged %>% select(-Id, -Fat, -TotalDistance, -TotalSleepRecords, -TotalMinutesAsleep.y, -WeightPounds, -TotalTimeInBed, - LogId, -LoggedActivitiesDistance, -TrackerDistance, -VeryActiveDistance, -ModeratelyActiveDistance, -LightActiveDistance, -SedentaryActiveDistance)
+```
+Only the numeric columns were selected from the dataset to prevent errors during analysis.
 
-
-# Select only the numeric columns to avoid errors.
-
+```{r only-numeric}
 numeric_data <- Allmerged %>% select(where(is.numeric))
+```
+To prevent errors, each numeric column was checked for a standard deviation of zero (indicating all values are identical), and the results were stored as a logical vector.
 
-
-# To avoid error message, checks each numeric column to see if its standard deviation is 0 (all values are the same) and stores the result as a logical vector.
-
+```{r check-sd}
 zero_var_cols <- sapply(numeric_data, function(x) sd(x, na.rm = TRUE) == 0) 
+```
+Only the columns in numeric_data that do not have zero variance were retained for further analysis.
 
-# Only keeps the columns in numeric_data that do not have zero variance.
-
+```{r numeric-sd-only}
 numeric_data_filtered <- numeric_data[, !zero_var_cols]
+```
+A correlation matrix was created using all relevant numeric variables to provide a clearer understanding of the relationships between them.
 
-# Create a correlation matrix of all the relevant numeric variables
-
+```{r corrmatrix}
 cor_matrix <- cor(numeric_data, use = "pairwise.complete.obs") 
 print(cor_matrix)
+```
+A plot of the correlation matrix was generated to visually highlight the strength and direction of relationships between the numeric variables for easier interpretation.
 
-# Create a plot of the correlation matrix for clearer results.
-
+```{r corrplot}
 corrplot(cor_matrix, 
-         method = "color",       # Use colored tiles instead of numbers or circles
-         type = "upper",         # Show only the upper triangle (to avoid repetition)
-         tl.cex = 0.8,           # Text label size for variable names
-         number.cex = 0.5,       # Size of the numbers (correlation values)
-         addCoef.col = "black",  # Color of coefficients
-         tl.srt      = 55,       # 
-         tl.col = "darkred")     # rotate labels 45 degrees
+         method = "color",       # use colored tiles instead of numbers or circles
+         type = "upper",         # show only the upper triangle (to avoid repetition)
+         tl.cex = 0.8,           # text label size for variable names
+         number.cex = 0.5,       # size of the numbers (correlation values)
+         addCoef.col = "black",  # color of coefficients
+         tl.srt      = 55,       # rotate labels 55 degrees
+         tl.col = "darkred")     # color labels
 ```
 
 ![Correlation Matrix](Plots/Correlation-Matrix.PNG)
 
-The correlation matrix indicates some intresting correlation between the variables:
+The correlation matrix reveals several interesting relationships between variables. To gain a deeper understanding, individual correlation tests and corresponding plots will be created for the most notable correlations highlighted in the matrix.
 
 ## 1- Sedentary time correlate with total sleeping time (without accounting for sedentary time spend sleeping).
 
@@ -616,7 +561,8 @@ ggplot(Activity, aes(x=Calories, y=VeryActiveMinutes))+
   theme_minimal()
 ```
 ![Very Active time vs Calories](Plots/Calories-vs-Active-Minutes.PNG)
- As number of Very Active minutes increase, burnt Calories increases
+
+There is a clear positive correlation between Very Active Minutes and Calories Burned, indicating that as the amount of very active time increases, the number of calories burned also tends to rise.
  
 ## 6- Calories and Steps
 
@@ -635,7 +581,7 @@ ggplot(Activity, aes(x=Calories, y=TotalSteps))+
 ```
 ![Daily Steps vs Calories burnt](Plots/Calories-vs-Steps.PNG)
 
- There is a positive relationship between daily step count and calorie burnt, indicating that individuals who walk more steps tend to expend more calories throughout the day.
+There is a positive relationship between daily step count and calorie burnt, indicating that individuals who walk more steps tend to expend more calories throughout the day.
  
 ## 7- Time in Bed (Awake) and Fairly Active minutes
 
@@ -658,71 +604,77 @@ ggplot(Allmerged, aes(x=TimeInBedAwake, y=FairlyActiveMinutes))+
 
 The more time Daily fairly active time is spent the more time in bed is spent before and after sleeping and vice versa. Because correlation does not imply causation, this association highlights a connection but doesn’t clarify the direction of influence. Those results could indicate that spending time in bed helps relaxation and increases motivation for the rest of the day resulting in higher fairly active time but it could also indicate that longer fairly active time leads to the need of more time to relax once in bed.
 
-Summary of Analysis
 
-Key findings from the data analysis include:
+# Summary of Analysis
 
-Activity Trends: The average daily step count was 7,281—well below the recommended 10,000. Users were more active on Saturdays and least active on Fridays and Sundays. Weekends showed slightly more active minutes and lower sedentary behavior.
+## Key findings from the data analysis include:
 
-Sleep Patterns: Users sleep longer on weekends, especially on Sundays. A significant portion of time in bed is spent awake,         particularly on weeknights.
+### Activity Trends
+The average daily step count was 7,281—well below the recommended 10,000. Users were more active on Saturdays and least active on Fridays and Sundays. Weekends showed slightly more active minutes and lower sedentary behavior.
 
-Heart Rate Insights: Slightly elevated average heart rate on weekends. Weak negative correlation between heart rate and sleep duration.
+### Sleep Patterns 
+Users sleep longer on weekends, especially on Sundays. A significant portion of time in bed is spent awake,         particularly on weeknights.
 
-Weight and BMI: Slight increase in weight and BMI over weekends, peaking on Sundays and Wednesdays. Correlation Highlights: Strong positive correlation between total active minutes and step count (r = 0.77). Moderate positive correlation between very active minutes and calories burned. Strong negative correlation between sedentary awake time and total sleep (r = -0.89). Slight positive correlation between sedentary awake time and heart rate.
+### Heart Rate Insights
+Slightly elevated average heart rate on weekends. Weak negative correlation between heart rate and sleep duration.
 
-Key Insight Summaries: Less activity correlates with reduced sleep and slightly higher heart rate. Most users do not meet daily activity guidelines. User behaviors differ significantly between weekdays and weekends, affecting sleep, heart rate, and calorie burn.
+### Weight and BMI
+Slight increase in weight and BMI over weekends, peaking on Sundays and Wednesdays. Correlation Highlights: Strong positive correlation between total active minutes and step count (r = 0.77). Moderate positive correlation between very active minutes and calories burned. Strong negative correlation between sedentary awake time and total sleep (r = -0.89). Slight positive correlation between sedentary awake time and heart rate.
+
+## Key Insight Summaries
+Less activity correlates with reduced sleep and slightly higher heart rate. Most users do not meet daily activity guidelines. User behaviors differ significantly between weekdays and weekends, affecting sleep, heart rate, and calorie burn.
 
 
-Based on the analysis, the following strategic recommendations are proposed for Bellabeat:
+## Based on the analysis, the following strategic recommendations are proposed for Bellabeat:
 
-1. Introduce Personalized Activity Nudges
+### 1. Introduce Personalized Activity Nudges
 
 Insight: Most users do not meet the 10,000-step daily recommendation; activity is lowest on weekdays,especially Fridays.
 Action: Use app notifications to encourage short bursts of movement during sedentary periods, especially during workdays.
 Example: “Take 1,000 steps by 3 PM to hit your daily goal!”
 
 
-2. Emphasize Weekend Wellness Features
+### 2. Emphasize Weekend Wellness Features
 
 Insight: Users sleep more and are slightly more active on weekends.
 Action: Launch weekend wellness campaigns featuring mindfulness, recovery, hydration tracking, and sleep rituals. “Recharge Sundays”:Guided breathing + hydration reminders + sleep prep content.
     
     
-3. Create Smart Sleep Coaching
+### 3. Create Smart Sleep Coaching
 
 Insight: There's a strong negative correlation between sedentary time and sleep; many users spend time in bed awake. Action: Offer in-app sleep coaching to help users improve sleep efficiency (not just duration), including: Pre-bed routines: Light/stretch reminders before sleep. Content to reduce "awake in bed" time (e.g., sleep stories, relaxation sounds)
     
-4. Launch Heart Health Awareness Tools
+### 4. Launch Heart Health Awareness Tools
 
 Insight: Higher sedentary time is weakly correlated with higher heart rate. Action: Introduce heart rate monitoring insights that detect patterns and offer tips (e.g., breathing exercises, movement alerts).“We noticed your heart rate is elevated—want to take a 3-minute breathing break?”
     
-5. Add Adaptive Daily Goals
+### 5. Add Adaptive Daily Goals
 
 Insight: Activity and sleep levels vary by day of the week.
 Action: Use machine learning to adapt daily step or sleep goals based on user trends (e.g., higher weekend activity). Adjusted    expectations may improve user satisfaction and consistency.
 
-6. Implement “Lifestyle Snapshot” Dashboards
+### 6. Implement “Lifestyle Snapshot” Dashboards
 
 Insight: Correlation analysis showed meaningful connections between activity, heart rate, sleep, and calories. Action: Provide users   with a weekly health summary combining: Steps, Heart rate trends, Sleep efficiency, Calories burned. Example: “This week you were most active on Saturday. Sleep improved on days with less sedentary time.”
 
-7. Gamify Movement & Sleep
+### 7. Gamify Movement & Sleep
 
 Insight: Users fall short on physical activity and may benefit from motivation. Action: Add achievements, badges, and streaks for:     Meeting step goals, Improving sleep efficiency, Lowering resting  heart rate over time.
 
 
-Area for future research
+## Area for future research
 
-1. Audience Segmentation
+### 1. Audience Segmentation
 
 Further research could explore how different age groups of female  users engage with wearable technology. Specifically: Do younger   women (ages 20–35) prioritize fitness tracking, step goals, and the visual/aesthetic appeal of devices? Do older women (ages 35+) place more value on features that support wellness, heart health, sleep monitoring, and stress management?
     
-2. Competitive Differentiation
+### 2. Competitive Differentiation
 
 Further exploration could assess whether Bellabeat can create a stronger market position by focusing on holistic wellness rather than traditional fitness tracking alone. Specifically: Do users respond more positively to devices that support both physical and mental wellbeing, such as stress reduction, sleep quality,  mindfulness, and emotional balance?
 Would framing Bellabeat as a lifestyle partner—rather than a step counter—better align with the needs and expectations of its core       audience?
     
   
-3. Female-Specific Health Features
+### 3. Female-Specific Health Features
     
 Further development could explore how Bellabeat can better support women’s unique health needs by integrating features tailored to       different life stages. Specifically: Do users benefit from tracking tools related to menstrual cycles, fertility windows, and hormonal  fluctuations? Could women entering perimenopause and menopause find value in tools focused on stress management, sleep support, and     holistic wellness guidance?
     
