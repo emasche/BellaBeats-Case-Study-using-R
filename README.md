@@ -498,7 +498,7 @@ plot(HeartbeatSleep$AvgHeartRate, HeartbeatSleep$TotalMinutesAsleep,
      pch = 19, col = "darkblue")
 abline(lm(TotalMinutesAsleep ~ AvgHeartRate, data = HeartbeatSleep), col = "red", lwd = 2) # adding a trend line (linear regression)
 ```
-![Sedentary daytime vs Total sleep](Plots/Sedentary-Minutes-vs-Total-Sleep.PNG)
+![Heart rate vs Total sleep](Plots/Heart-Rate-vs-Total-time-Asleep.PNG)
 
 There is a negative correlation between sleep duration and heart rate, suggesting that more sleep is associated with lower resting heart rates.
 
@@ -611,13 +611,13 @@ The more time Daily fairly active time is spent the more time in bed is spent be
 The average daily step count was 7,281—well below the recommended 10,000. Users were more active on Saturdays and least active on Fridays and Sundays. Weekends showed slightly more active minutes and lower sedentary behavior.
 
 ### Sleep Patterns 
-Users sleep longer on weekends, especially on Sundays. A significant portion of time in bed is spent awake,         particularly on weeknights.
+Users sleep longer on weekends, especially on Sundays. A significant portion of time in bed is spent awake, particularly on weeknights. Strong negative correlation between sedentary awake time and total sleep (r = -0.89). 
 
 ### Heart Rate Insights
-Slightly elevated average heart rate on weekends. Weak negative correlation between heart rate and sleep duration.
+Slightly elevated average heart rate on weekends. Weak negative correlation between heart rate and sleep duration. Slight positive correlation between sedentary awake time and heart rate.
 
 ### Weight and BMI
-Slight increase in weight and BMI over weekends, peaking on Sundays and Wednesdays. Correlation Highlights: Strong positive correlation between total active minutes and step count (r = 0.77). Moderate positive correlation between very active minutes and calories burned. Strong negative correlation between sedentary awake time and total sleep (r = -0.89). Slight positive correlation between sedentary awake time and heart rate.
+Slight increase in weight and BMI over weekends, peaking on Sundays and Wednesdays. Correlation Highlights: Strong positive correlation between total active minutes and step count (r = 0.77). Moderate positive correlation between very active minutes and calories burned. 
 
 ## Key Insight Summaries
 Less activity correlates with reduced sleep and slightly higher heart rate. Most users do not meet daily activity guidelines. User behaviors differ significantly between weekdays and weekends, affecting sleep, heart rate, and calorie burn.
@@ -625,7 +625,7 @@ Less activity correlates with reduced sleep and slightly higher heart rate. Most
 
 ## Based on the analysis, the following strategic recommendations are proposed for Bellabeat:
 
-### 1. Introduce Personalized Activity Nudges
+### 1. Introduce Personalised Activity Nudges
 
 Insight: Most users do not meet the 10,000-step daily recommendation; activity is lowest on weekdays,especially Fridays.
 Action: Use app notifications to encourage short bursts of movement during sedentary periods, especially during workdays.
